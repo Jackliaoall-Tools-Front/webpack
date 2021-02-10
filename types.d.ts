@@ -118,6 +118,11 @@ declare class AbstractLibraryPlugin<T> {
 		entryName: string,
 		libraryContext: LibraryContext<T>
 	): void;
+	canEmbedInRuntime(
+		module: Module,
+		renderContext: RenderContextObject,
+		libraryContext: LibraryContext<T>
+	): undefined | boolean;
 	runtimeRequirements(
 		chunk: Chunk,
 		set: Set<string>,
@@ -1655,6 +1660,8 @@ declare interface CompilationHooksJavascriptModulesPlugin {
 	render: SyncWaterfallHook<[Source, RenderContextObject]>;
 	renderStartup: SyncWaterfallHook<[Source, Module, StartupRenderContext]>;
 	renderRequire: SyncWaterfallHook<[string, RenderBootstrapContext]>;
+	canInlineInRuntime: SyncBailHook<[Module, RenderBootstrapContext], boolean>;
+	canEmbedInRuntime: SyncBailHook<[Module, RenderContextObject], boolean>;
 	chunkHash: SyncHook<[Chunk, Hash, ChunkHashContext]>;
 	useSourceMap: SyncBailHook<[Chunk, RenderContextObject], boolean>;
 }
@@ -4420,7 +4427,7 @@ declare class JavascriptParser extends Parser {
 		varDeclarationLet: HookMap<SyncBailHook<[Declaration], boolean | void>>;
 		varDeclarationConst: HookMap<SyncBailHook<[Declaration], boolean | void>>;
 		varDeclarationVar: HookMap<SyncBailHook<[Declaration], boolean | void>>;
-		pattern: HookMap<SyncBailHook<any, any>>;
+		pattern: HookMap<SyncBailHook<[Identifier], boolean | void>>;
 		canRename: HookMap<SyncBailHook<[Expression], boolean | void>>;
 		rename: HookMap<SyncBailHook<[Expression], boolean | void>>;
 		assign: HookMap<SyncBailHook<[AssignmentExpression], boolean | void>>;

@@ -5,7 +5,44 @@ module.exports = (env, { testPath }) => [
 	{
 		output: {
 			filename: "commonjs.js",
-			libraryTarget: "commonjs"
+			libraryTarget: "commonjs",
+			iife: false
+		},
+		resolve: {
+			alias: {
+				external: "./non-external"
+			}
+		}
+	},
+	{
+		output: {
+			filename: "commonjs-iife.js",
+			libraryTarget: "commonjs",
+			iife: true
+		},
+		resolve: {
+			alias: {
+				external: "./non-external"
+			}
+		}
+	},
+	{
+		output: {
+			filename: "amd.js",
+			libraryTarget: "amd",
+			iife: false
+		},
+		resolve: {
+			alias: {
+				external: "./non-external"
+			}
+		}
+	},
+	{
+		output: {
+			filename: "amd-iife.js",
+			libraryTarget: "amd",
+			iife: true
 		},
 		resolve: {
 			alias: {
@@ -39,7 +76,20 @@ module.exports = (env, { testPath }) => [
 	{
 		output: {
 			filename: "this.js",
-			libraryTarget: "this"
+			libraryTarget: "this",
+			iife: false
+		},
+		resolve: {
+			alias: {
+				external: "./non-external"
+			}
+		}
+	},
+	{
+		output: {
+			filename: "this-iife.js",
+			libraryTarget: "this",
+			iife: true
 		},
 		resolve: {
 			alias: {
@@ -50,7 +100,26 @@ module.exports = (env, { testPath }) => [
 	{
 		output: {
 			filename: "var.js",
-			library: ["globalName", "x", "y"]
+			library: ["globalName", "x", "y"],
+			iife: false
+		},
+		resolve: {
+			alias: {
+				external: "./non-external"
+			}
+		},
+		plugins: [
+			new webpack.BannerPlugin({
+				raw: true,
+				banner: "module.exports = () => globalName;\n"
+			})
+		]
+	},
+	{
+		output: {
+			filename: "var-iife.js",
+			library: ["globalName", "x", "y"],
+			iife: true
 		},
 		resolve: {
 			alias: {
@@ -67,7 +136,16 @@ module.exports = (env, { testPath }) => [
 	{
 		output: {
 			filename: "commonjs2-external.js",
-			libraryTarget: "commonjs2"
+			libraryTarget: "commonjs2",
+			iife: false
+		},
+		externals: ["external"]
+	},
+	{
+		output: {
+			filename: "commonjs2-iife-external.js",
+			libraryTarget: "commonjs2",
+			iife: true
 		},
 		externals: ["external"]
 	},
